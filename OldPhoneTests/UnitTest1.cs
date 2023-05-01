@@ -1,4 +1,4 @@
-﻿using CodingChallenge;
+﻿using OldPhone;
 using NUnit.Framework;
 
 namespace OldPhoneTests
