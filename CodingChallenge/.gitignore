@@ -1,0 +1,39 @@
+﻿# Ignore Visual Studio files
+.vs/
+bin/
+obj/
+
+# Ignore build artifacts
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+*.deploy
+*.manifest
+
+# Ignore NuGet packages
+*.nupkg
+packages/
+
+# Ignore user-specific files
+*.user
+*.suo
+*.sln.docstates
+
+# Ignore build results
+[Dd]ebug/
+[Rr]elease/
+
+# Ignore .NET Core files
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Ignore Visual Studio Code files
+.vscode/
+
+# Ignore ReSharper files
+_ReSharper*/
+*.resharper
+*.sln.DotSettings.user
