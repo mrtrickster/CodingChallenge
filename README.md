@@ -5,6 +5,14 @@ This repository contains a C# solution for implementing an old phone keypad with
 <h2>Description</h2>
 The solution includes classes for the phone keypad and buttons, as well as event handlers for the backspace and send buttons. The keypad buttons are mapped to corresponding letters, and the user can enter a message by pressing the buttons. The backspace button deletes the last character entered, and the send button displays a message box with the entered text.
 
+<h2></h2>
+This is a C# static class that provides several methods to help you work with phone numbers. The class includes the following methods:
+<h3>OldPhonePad:</h3> Converts a string of alphanumeric characters to a phone number in the format of an old-fashioned telephone keypad. This method uses a lookup table to translate the letters to the corresponding digits on the phone keypad.
+<h3>ConvertToPhoneDigits:</h3> Removes invalid characters (characters that are not digits or accepted characters) from the input string, and then splits the input string into substrings of repeating digits or accepted characters.
+<h3>SplitToRepeatingCharacters:</h3> Splits a string into substrings of repeating digits or accepted characters.
+<h3>RemoveInvalidCharacters:</h3> Removes all characters from the input string that are not digits or accepted characters.
+<h3>ConvertToCharFromRepeatingDigits:</h3> Converts a substring of repeating digits to the corresponding letter on the phone keypad.
+
 <h2>Installation</h2>
 To use this solution, simply clone the repository and open the solution file in Microsoft Visual Studio.
 
