@@ -11,24 +11,13 @@ namespace OldPhone
     public static class Tools
     {
         /// <summary>
-        /// An array of accepted characters that includes spaces, asterisks, and pound signs.
+        /// An array of accepted characters that includes spaces, asterisks, and hash signs.
         /// </summary>
-        private static readonly char[] AcceptedChars = { ' ', '*', '#' };
+        private static readonly char[] AcceptedChars = { ' ', '*', '#', '_' };
         /// <summary>
-        /// A jagged array that contains the mapping of digits to letters based on an old phone keypad mapping.
+        /// An array of strings that contains the mapping of digits to letters based on an old phone keypad mapping.
         /// </summary>
-        private static readonly char[][] Letters = {
-            new char[]{ ' ' },
-            new char[]{ '&', '\'', '(' },
-            new char[]{ 'a', 'b', 'c' },
-            new char[]{ 'd', 'e', 'f' },
-            new char[]{ 'g', 'h', 'i' },
-            new char[]{ 'j', 'k', 'l' },
-            new char[]{ 'm', 'n', 'o' },
-            new char[]{ 'p', 'q', 'r', 's' },
-            new char[]{ 't', 'u', 'v' },
-            new char[]{ 'w', 'x', 'y', 'z' }
-        };
+        private static readonly string[] Letters = { " ", "&\'(", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
 
         /// <summary>
         /// Converts an input string of digits or their repetitions
@@ -40,30 +29,40 @@ namespace OldPhone
         /// according to an old phone keypad mapping.</returns>
         public static string OldPhonePad(string input)
         {
-            return ConvertToPhoneDigits(input).ToUpper();
+            return ConvertToPhoneLetters(input).ToUpper();
         }
 
         /// <summary>
-        /// Converts the input string to a string of digits based on the old phone keypad mapping.
+        /// Converts the input string to a string of letters based on the old phone keypad mapping.
         /// </summary>
-        private static string ConvertToPhoneDigits(string input)
+        private static string ConvertToPhoneLetters(string input)
         {
-            var substrings = SplitToRepeatingCharacters(RemoveInvalidCharacters(input));
+            var substrings = SplitToRepeatingCharacters(RemoveInvalidCharacters(RemoveCharactersAfterHash(input)));
             return substrings
                 .Select(ConvertToCharFromRepeatingDigits)
                 .Aggregate(string.Empty, (current, letter) =>
                     letter switch
                     {
-                        '*' => current.Length > 0 ? current[..^1] : current,
+                        '*' when current.Length > 0 => current[0..^1],
                         '#' => current,
+                        '_' => current + ' ',
                         _ => current + letter
                     });
             
         }
 
         /// <summary>
+        /// Removes all characters from the input string after the first occurrence of the '#' character.
+        /// </summary>
+        private static string RemoveCharactersAfterHash(string input)
+        {
+            var index = input.IndexOf('#');
+            return index == -1 ? input : input.Substring(0, index);
+        }
+
+        /// <summary>
         /// Removes any characters that are not digits, spaces, asterisks,
-        /// or pound signs from the input string.
+        /// or hash signs from the input string.
         /// </summary>
         private static string RemoveInvalidCharacters(string input)
         {
@@ -76,7 +75,7 @@ namespace OldPhone
         /// </summary>
         private static string[] SplitToRepeatingCharacters(string input)
         {
-            string pattern = @"(\d)\1*|#|\*";
+            string pattern = @"(\d)\1*|#|_|\*";
             return (Regex.Matches(input, pattern).Cast<Match>().Select(m => m.Value).ToArray());
         }
 

@@ -7,6 +7,13 @@ namespace OldPhoneTests
     public class ToolsTests
     {
         [Test]
+        public void TestOldPhonePad00()
+        {
+            string result = Tools.OldPhonePad("222 2 22#");
+            Assert.AreEqual("CAB", result);
+        }
+
+        [Test]
         public void TestOldPhonePad01()
         {
             string result = Tools.OldPhonePad("33#");
