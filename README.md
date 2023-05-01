@@ -1,6 +1,6 @@
 # CodingChallenge
 <h1>Old Phone Keypad Solution</h1>
-The Tools class provides a static method OldPhonePad to convert an input string of digits or their repetitions to the corresponding letters on a traditional mobile phone pad. The keypad buttons are mapped to corresponding letters, and the user can enter a message by pressing the buttons. The "*" symbol deletes the last letter entered.
+The Tools class provides a static method OldPhonePad to convert an input string of digits or their repetitions to the corresponding letters on a traditional mobile phone pad. The keypad buttons are mapped to corresponding letters, and the user can enter a message by pressing the buttons. The "*" symbol deletes the last letter entered. The "#" symbol denotates the end of the text string. The " " symbol is a separator between letters mapped to the same button.
 <h3>ConvertToPhoneDigits:</h3> Converts a string of numeric characters to a string of letters. This method uses a lookup table to translate the digits to the corresponding letters.
 <h3>SplitToRepeatingCharacters:</h3> Splits a string into substrings of repeating digits or accepted symbols ("*", "#", " ").
 <h3>RemoveInvalidCharacters:</h3> Removes all characters from the input string that are not digits or accepted symbols.
