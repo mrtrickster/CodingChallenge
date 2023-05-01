@@ -4,10 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace CodingChallenge
 {
-    public class Tools
+    public static class Tools
     {
-        private static char[] _acceptedChars = { ' ', '*', '#' };
-        private static char[][] _letters = {
+        private static readonly char[] AcceptedChars = { ' ', '*', '#' };
+        private static readonly char[][] Letters = {
             new char[]{ ' ' },
             new char[]{ '&', '\'', '(' },
             new char[]{ 'a', 'b', 'c' },
@@ -20,39 +20,29 @@ namespace CodingChallenge
             new char[]{ 'w', 'x', 'y', 'z' }
         };
 
-        public static String OldPhonePad(string input)
+        public static string OldPhonePad(string input)
         {
-            string result = "";
-            string filteredInput = FilterAcceptedCharacters(input);
-            var substrings = SplitToRepeatingCharacters(filteredInput);
-            foreach (string substring in substrings)
-            {
-                char letter = RepeatingCharactersToChar(substring);
-                switch (letter.ToString())
-                {
-                    case "*":
-                        if (result.Length > 0)
-                        {
-                            result = result.Substring(0, result.Length - 1);
-                        }
-                        break;
-                    case "#":
-                        break;
-                    default:
-                        result += letter;
-                        break;
-                }
-            }
-            return result;
+            return ConvertToPhoneDigits(input).ToUpper();
         }
 
-        private static string FilterAcceptedCharacters(string input)
+        private static string ConvertToPhoneDigits(string input)
         {
-            string filteredInput = new string(input.Where(
-                c => char.IsDigit(c) || Array.IndexOf(_acceptedChars, c) != -1
-            ).ToArray());
+            var substrings = SplitToRepeatingCharacters(RemoveInvalidCharacters(input));
+            return substrings
+                .Select(ConvertToCharFromRepeatingDigits)
+                .Aggregate(string.Empty, (current, letter) =>
+                    letter switch
+                    {
+                        '*' => current.Length > 0 ? current[..^1] : current,
+                        '#' => current,
+                        _ => current + letter
+                    });
+            
+        }
 
-            return filteredInput;
+        private static string RemoveInvalidCharacters(string input)
+        {
+            return new string(input.Where(c => char.IsDigit(c) || AcceptedChars.Contains(c)).ToArray());
         }
 
         private static string[] SplitToRepeatingCharacters(string input)
@@ -61,15 +51,13 @@ namespace CodingChallenge
             return (Regex.Matches(input, pattern).Cast<Match>().Select(m => m.Value).ToArray());
         }
 
-        private static char RepeatingCharactersToChar(string input)
+        private static char ConvertToCharFromRepeatingDigits(string input)
         {
             char c = input[0];
-            if (char.IsDigit(c))
-            {
-                int i = (int)Char.GetNumericValue(c);
-                return _letters[i][input.Length - 1];
-            }
-            else return c;
+            if (!char.IsDigit(c))
+                return c;
+            var i = (int)char.GetNumericValue(c);
+            return Letters[i][input.Length - 1];
         }
     }
 }

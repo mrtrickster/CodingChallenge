@@ -6,7 +6,7 @@ namespace CodingChallenge
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(Tools.OldPhonePad("8 88777444666*664#").ToUpper());
+            Console.WriteLine(Tools.OldPhonePad("8 88777444666*664#"));
         }
     }
 }
